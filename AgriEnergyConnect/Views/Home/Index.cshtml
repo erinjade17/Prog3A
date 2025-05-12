@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 text-success">AgriEnergyConnect</h1>
+        <p class="lead text-muted">Welcome to AgriEnergyConnect – Empowering Farmers through Sustainable Energy.</p>
+        <p class="text-secondary">We connect farmers with green energy solutions and streamline agricultural operations through smart digital tools. Join us to build a cleaner, smarter future for farming.</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-4 text-center">
+            <a asp-controller="Account" asp-action="Login" class="btn btn-success btn-lg w-100 mb-3">Login</a>
+            <a asp-controller="Account" asp-action="Register" class="btn btn-outline-success btn-lg w-100">Register</a>
+        </div>
+    </div>
+</div>
+
+@if (User.Identity != null && User.Identity.IsAuthenticated)
+{
+    <header class="bg-white shadow mt-5">
+        <div class="container py-3 d-flex justify-content-between align-items-center">
+            <h1 class="h4 text-success">AgriEnergyConnect</h1>
+            <nav>
+                <ul class="nav">
+                    @if (User.IsInRole("Farmer"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-success" asp-controller="Farmer" asp-action="MyProducts">My Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-success" asp-controller="Farmer" asp-action="AddProduct">Add Product</a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Employee"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-success" asp-controller="Employee" asp-action="ViewAllFarmers">View Farmers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-success" asp-controller="Employee" asp-action="AddFarmer">Add Farmer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-success" asp-controller="Employee" asp-action="FilterProducts">Filter Products</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </header>
+}

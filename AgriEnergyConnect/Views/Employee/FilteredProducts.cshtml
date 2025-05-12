@@ -1,0 +1,45 @@
+﻿@model IEnumerable<AgriEnergyConnect.Models.Product>
+
+@{
+    ViewData["Title"] = "Filtered Products";
+}
+
+<h2>Filtered Products</h2>
+
+<form asp-action="FilterProducts" method="get" class="form-inline mb-3">
+    <div class="form-group mr-2">
+        <label for="category" class="mr-2">Category:</label>
+        <input type="text" name="category" class="form-control" />
+    </div>
+    <div class="form-group mr-2">
+        <label for="fromDate" class="mr-2">From:</label>
+        <input type="date" name="fromDate" class="form-control" />
+    </div>
+    <div class="form-group mr-2">
+        <label for="toDate" class="mr-2">To:</label>
+        <input type="date" name="toDate" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Farmer</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Production Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Farmer?.Name</td>
+                <td>@product.Name</td>
+                <td>@product.Category</td>
+                <td>@product.ProductionDate.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
