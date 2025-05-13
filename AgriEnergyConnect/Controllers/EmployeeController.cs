@@ -51,5 +51,4 @@ namespace AgriEnergyConnect.Controllers
             return View("FilteredProducts", products.ToList());
         }
     }
-
 }

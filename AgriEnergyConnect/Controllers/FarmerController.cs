@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AgriEnergyConnect.Controllers
@@ -10,53 +12,102 @@ namespace AgriEnergyConnect.Controllers
     public class FarmerController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager; // Corrected type
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public FarmerController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public FarmerController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
         }
 
+        // GET: /Farmer/MyProducts
         public async Task<IActionResult> MyProducts()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
-            {
-                return NotFound();
-            }
-            var farmer = _context.Farmers.FirstOrDefault(f => f.Email == user.Email);
+                return NotFound("User not found.");
+
+            var farmer = await _context.Farmers.FirstOrDefaultAsync(f => f.Email == user.Email);
             if (farmer == null)
             {
-                return NotFound(); // Or handle the case where the farmer is not found
+                farmer = new Farmer
+                {
+                    Name = user.FullName?.Trim() ?? user.Email,
+                    Email = user.Email?.Trim() ?? throw new System.Exception("Missing email"),
+                    Phone = "Unknown",        // ✅ Ensures non-null for DB
+                    Location = "Unknown"
+                };
+
+                _context.Farmers.Add(farmer);
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException ex)
+                {
+                    Console.WriteLine("❌ Failed to save Farmer: " + ex.InnerException?.Message ?? ex.Message);
+                    throw;
+                }
             }
-            var products = _context.Products.Where(p => p.FarmerId == farmer.FarmerId).ToList();
+
+            var products = await _context.Products
+                .Where(p => p.FarmerId == farmer.FarmerId)
+                .ToListAsync();
+
             return View(products);
         }
 
+        // GET: /Farmer/AddProduct
         public IActionResult AddProduct() => View();
 
+        // POST: /Farmer/AddProduct
         [HttpPost]
         public async Task<IActionResult> AddProduct(Product product)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return View(product);
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return NotFound("User not found.");
+
+            var farmer = await _context.Farmers.FirstOrDefaultAsync(f => f.Email == user.Email);
+            if (farmer == null)
             {
-                var user = await _userManager.GetUserAsync(User);
-                if (user == null)
+                farmer = new Farmer
                 {
-                    return NotFound();
-                }
-                var farmer = _context.Farmers.FirstOrDefault(f => f.Email == user.Email);
-                if (farmer == null)
+                    Name = user.FullName?.Trim() ?? user.Email,
+                    Email = user.Email?.Trim() ?? throw new System.Exception("Missing email"),
+                    Phone = "Unknown",        // ✅ Ensures non-null for DB
+                    Location = "Unknown"
+                };
+
+                _context.Farmers.Add(farmer);
+                try
                 {
-                    return NotFound(); // Or handle the case where the farmer is not found
+                    await _context.SaveChangesAsync();
                 }
-                product.FarmerId = farmer.FarmerId;
-                _context.Products.Add(product);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("MyProducts");
+                catch (DbUpdateException ex)
+                {
+                    Console.WriteLine("❌ Failed to save Farmer: " + ex.InnerException?.Message ?? ex.Message);
+                    throw;
+                }
             }
-            return View(product);
+
+            product.FarmerId = farmer.FarmerId;
+            _context.Products.Add(product);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                Console.WriteLine("❌ Failed to save Product: " + ex.InnerException?.Message ?? ex.Message);
+                throw;
+            }
+
+            return RedirectToAction("MyProducts");
         }
     }
 }

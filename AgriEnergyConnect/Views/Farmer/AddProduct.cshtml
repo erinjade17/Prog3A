@@ -1,5 +1,4 @@
-﻿
-   @model AgriEnergyConnect.Models.Product
+﻿@model AgriEnergyConnect.Models.Product
 
 @{
     ViewData["Title"] = "Add Product";
@@ -27,9 +26,5 @@
 </form>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 }
-
-

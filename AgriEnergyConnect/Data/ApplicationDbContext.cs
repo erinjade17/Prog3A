@@ -7,7 +7,6 @@ using System.IO;
 
 namespace AgriEnergyConnect
 {
-    // Inherit from IdentityDbContext to include Identity tables like AspNetUsers
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -15,12 +14,27 @@ namespace AgriEnergyConnect
         {
         }
 
-        // Your custom tables
         public DbSet<Farmer> Farmers { get; set; }
         public DbSet<Product> Products { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<Farmer>()
+                .Property(f => f.Name)
+                .IsRequired();
+
+            builder.Entity<Farmer>()
+                .Property(f => f.Email)
+                .IsRequired();
+
+            builder.Entity<Product>()
+                .Property(p => p.Name)
+                .IsRequired();
+        }
     }
 
-    // Used by EF Core CLI tools at design-time to build the DbContext
     public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
     {
         public ApplicationDbContext CreateDbContext(string[] args)
