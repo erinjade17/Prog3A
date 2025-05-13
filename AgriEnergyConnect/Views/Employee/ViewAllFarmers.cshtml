@@ -1,23 +1,23 @@
-﻿@model IEnumerable<AgriEnergyConnect.Models.Farmer>
+﻿@model IEnumerable<AgriEnergyConnect.Models.Farmer>  // List of Farmer objects
 
 @{
-    ViewData["Title"] = "All Farmers";
+    ViewData["Title"] = "All Farmers";  // Page title
 }
 
-<h2>All Farmers</h2>
+<h2>All Farmers</h2>  <!-- List heading -->
 
 <p>
-    <a asp-action="AddFarmer" class="btn btn-success">Add New Farmer</a>
+    <a asp-action="AddFarmer" class="btn btn-success">Add New Farmer</a>  <!-- Add new farmer button -->
 </p>
 
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Location</th>
-            <th>Products</th>
+            <th>Name</th>  <!-- Farmer's name -->
+            <th>Email</th>  <!-- Farmer's email -->
+            <th>Phone</th>  <!-- Farmer's phone -->
+            <th>Location</th>  <!-- Farmer's location -->
+            <th>Products</th>  <!-- Farmer's products -->
         </tr>
     </thead>
     <tbody>
@@ -28,7 +28,21 @@
                 <td>@farmer.Email</td>
                 <td>@farmer.Phone</td>
                 <td>@farmer.Location</td>
-                <td>@farmer.Products?.Count() ?? 0</td>
+                <td>
+                    @if (farmer.Products != null && farmer.Products.Any())
+                    {
+                        <ul>
+                            @foreach (var product in farmer.Products)
+                            {
+                                <li>@product.Name - @product.Category - @product.ProductionDate.ToShortDateString()</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span>No products</span>
+                    }
+                </td>
             </tr>
         }
     </tbody>

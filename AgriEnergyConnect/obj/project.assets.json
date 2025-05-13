@@ -4892,11 +4892,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lab_services_student\\Downloads\\AgriEnergyConnect-main\\AgriEnergyConnect-main\\AgriEnergyConnect\\AgriEnergyConnect.csproj",
+      "projectUniqueName": "C:\\Users\\lab_services_student\\Downloads\\AgriEnergyConnect-main\\AgriEnergyConnect-main1\\AgriEnergyConnect\\AgriEnergyConnect.csproj",
       "projectName": "AgriEnergyConnect",
-      "projectPath": "C:\\Users\\lab_services_student\\Downloads\\AgriEnergyConnect-main\\AgriEnergyConnect-main\\AgriEnergyConnect\\AgriEnergyConnect.csproj",
+      "projectPath": "C:\\Users\\lab_services_student\\Downloads\\AgriEnergyConnect-main\\AgriEnergyConnect-main1\\AgriEnergyConnect\\AgriEnergyConnect.csproj",
       "packagesPath": "C:\\Users\\lab_services_student\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lab_services_student\\Downloads\\AgriEnergyConnect-main\\AgriEnergyConnect-main\\AgriEnergyConnect\\obj\\",
+      "outputPath": "C:\\Users\\lab_services_student\\Downloads\\AgriEnergyConnect-main\\AgriEnergyConnect-main1\\AgriEnergyConnect\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

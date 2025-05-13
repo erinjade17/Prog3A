@@ -1,4 +1,4 @@
-﻿ @model AgriEnergyConnect.Models.Farmer
+﻿@model AgriEnergyConnect.Models.Farmer
 
 @{
     ViewData["Title"] = "Add Farmer";
@@ -7,33 +7,41 @@
 <h2>Add New Farmer</h2>
 
 <form asp-action="AddFarmer" method="post">
+    <!-- Name input field -->
     <div class="form-group">
         <label asp-for="Name" class="control-label"></label>
         <input asp-for="Name" class="form-control" />
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
+
+    <!-- Email input field -->
     <div class="form-group">
         <label asp-for="Email" class="control-label"></label>
         <input asp-for="Email" class="form-control" />
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
+
+    <!-- Phone input field -->
     <div class="form-group">
         <label asp-for="Phone" class="control-label"></label>
         <input asp-for="Phone" class="form-control" />
         <span asp-validation-for="Phone" class="text-danger"></span>
     </div>
+
+    <!-- Location input field -->
     <div class="form-group">
         <label asp-for="Location" class="control-label"></label>
         <input asp-for="Location" class="form-control" />
         <span asp-validation-for="Location" class="text-danger"></span>
     </div>
+
+    <!-- Submit button -->
     <button type="submit" class="btn btn-primary">Add Farmer</button>
 </form>
 
 @section Scripts {
+    <!-- Validation script -->
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-
-

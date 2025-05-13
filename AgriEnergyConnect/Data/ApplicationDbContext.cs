@@ -7,6 +7,7 @@ using System.IO;
 
 namespace AgriEnergyConnect
 {
+    // ApplicationDbContext extends IdentityDbContext for identity-related tables
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -17,6 +18,7 @@ namespace AgriEnergyConnect
         public DbSet<Farmer> Farmers { get; set; }
         public DbSet<Product> Products { get; set; }
 
+        // Configuring entity properties
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -35,6 +37,7 @@ namespace AgriEnergyConnect
         }
     }
 
+    // Factory for design-time DbContext creation
     public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
     {
         public ApplicationDbContext CreateDbContext(string[] args)

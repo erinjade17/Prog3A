@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace AgriEnergyConnect.Controllers
 {
+    // Restrict access to "Farmer" role users
     [Authorize(Roles = "Farmer")]
     public class FarmerController : Controller
     {
@@ -20,47 +21,25 @@ namespace AgriEnergyConnect.Controllers
             _userManager = userManager;
         }
 
-        // GET: /Farmer/MyProducts
+        // Displays farmer's products
         public async Task<IActionResult> MyProducts()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
                 return NotFound("User not found.");
 
-            var farmer = await _context.Farmers.FirstOrDefaultAsync(f => f.Email == user.Email);
-            if (farmer == null)
-            {
-                farmer = new Farmer
-                {
-                    Name = user.FullName?.Trim() ?? user.Email,
-                    Email = user.Email?.Trim() ?? throw new System.Exception("Missing email"),
-                    Phone = "Unknown",        // ✅ Ensures non-null for DB
-                    Location = "Unknown"
-                };
-
-                _context.Farmers.Add(farmer);
-                try
-                {
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateException ex)
-                {
-                    Console.WriteLine("❌ Failed to save Farmer: " + ex.InnerException?.Message ?? ex.Message);
-                    throw;
-                }
-            }
-
+            var farmer = await GetOrCreateFarmerAsync(user);
             var products = await _context.Products
-                .Where(p => p.FarmerId == farmer.FarmerId)
-                .ToListAsync();
+                                         .Where(p => p.FarmerId == farmer.FarmerId)
+                                         .ToListAsync();
 
             return View(products);
         }
 
-        // GET: /Farmer/AddProduct
+        // Returns the view to add a new product
         public IActionResult AddProduct() => View();
 
-        // POST: /Farmer/AddProduct
+        // Adds a new product
         [HttpPost]
         public async Task<IActionResult> AddProduct(Product product)
         {
@@ -71,29 +50,7 @@ namespace AgriEnergyConnect.Controllers
             if (user == null)
                 return NotFound("User not found.");
 
-            var farmer = await _context.Farmers.FirstOrDefaultAsync(f => f.Email == user.Email);
-            if (farmer == null)
-            {
-                farmer = new Farmer
-                {
-                    Name = user.FullName?.Trim() ?? user.Email,
-                    Email = user.Email?.Trim() ?? throw new System.Exception("Missing email"),
-                    Phone = "Unknown",        // ✅ Ensures non-null for DB
-                    Location = "Unknown"
-                };
-
-                _context.Farmers.Add(farmer);
-                try
-                {
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateException ex)
-                {
-                    Console.WriteLine("❌ Failed to save Farmer: " + ex.InnerException?.Message ?? ex.Message);
-                    throw;
-                }
-            }
-
+            var farmer = await GetOrCreateFarmerAsync(user);
             product.FarmerId = farmer.FarmerId;
             _context.Products.Add(product);
 
@@ -108,6 +65,27 @@ namespace AgriEnergyConnect.Controllers
             }
 
             return RedirectToAction("MyProducts");
+        }
+
+        // Helper to retrieve or create a farmer
+        private async Task<Farmer> GetOrCreateFarmerAsync(ApplicationUser user)
+        {
+            var farmer = await _context.Farmers.FirstOrDefaultAsync(f => f.Email == user.Email);
+            if (farmer == null)
+            {
+                farmer = new Farmer
+                {
+                    Name = user.FullName?.Trim() ?? user.Email,
+                    Email = user.Email?.Trim() ?? throw new System.Exception("Missing email"),
+                    Phone = "Unknown",
+                    Location = "Unknown"
+                };
+
+                _context.Farmers.Add(farmer);
+                await _context.SaveChangesAsync();
+            }
+
+            return farmer;
         }
     }
 }

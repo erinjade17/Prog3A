@@ -6,22 +6,31 @@
 
 <h2>Filtered Products</h2>
 
+<!-- Filter form -->
 <form asp-action="FilterProducts" method="get" class="form-inline mb-3">
+    <!-- Category input field -->
     <div class="form-group mr-2">
         <label for="category" class="mr-2">Category:</label>
         <input type="text" name="category" class="form-control" />
     </div>
+
+    <!-- From Date input field -->
     <div class="form-group mr-2">
         <label for="fromDate" class="mr-2">From:</label>
         <input type="date" name="fromDate" class="form-control" />
     </div>
+
+    <!-- To Date input field -->
     <div class="form-group mr-2">
         <label for="toDate" class="mr-2">To:</label>
         <input type="date" name="toDate" class="form-control" />
     </div>
+
+    <!-- Filter button -->
     <button type="submit" class="btn btn-primary">Filter</button>
 </form>
 
+<!-- Products table -->
 <table class="table table-striped">
     <thead>
         <tr>

@@ -1,32 +1,32 @@
 ﻿@model IEnumerable<AgriEnergyConnect.Models.Product>
 
 @{
-    ViewData["Title"] = "My Products";
+    ViewData["Title"] = "My Products";  // Set the page title
 }
 
 <h2>My Products</h2>
 
-@if (!Model.Any())
+@if (!Model.Any())  <!-- Check if there are no products -->
 {
-    <p class="text-muted">No products yet. <a asp-action="AddProduct" class="btn btn-sm btn-success">Add your first product</a></p>
+    <p class="text-muted">No products yet. <a asp-action="AddProduct" class="btn btn-sm btn-success">Add your first product</a></p>  <!-- Display message and link to add a product -->
 }
 else
 {
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Production Date</th>
+                <th>Name</th>  <!-- Column header for product name -->
+                <th>Category</th>  <!-- Column header for product category -->
+                <th>Production Date</th>  <!-- Column header for production date -->
             </tr>
         </thead>
         <tbody>
-            @foreach (var product in Model)
+            @foreach (var product in Model)  <!-- Iterate through the products -->
             {
                 <tr>
-                    <td>@product.Name</td>
-                    <td>@product.Category</td>
-                    <td>@product.ProductionDate.ToShortDateString()</td>
+                    <td>@product.Name</td>  <!-- Display product name -->
+                    <td>@product.Category</td>  <!-- Display product category -->
+                    <td>@product.ProductionDate.ToShortDateString()</td>  <!-- Display product production date -->
                 </tr>
             }
         </tbody>

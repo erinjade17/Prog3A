@@ -30,6 +30,7 @@ builder.Logging.AddDebug();    // Log to the debug output
 
 var app = builder.Build();
 
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

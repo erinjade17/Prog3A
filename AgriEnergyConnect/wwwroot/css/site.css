@@ -1,31 +1,105 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
+/* Base Styles */
 body {
-  margin-bottom: 60px;
+    font-family: 'Georgia', 'Times New Roman', Times, serif; /* Updated to a serif font */
+    background-color: #ffffff;
+    color: #333;
+    margin: 0;
+    padding: 0;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* Header / Navbar */
+.navbar {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+    .navbar a {
+        color: white;
+        margin-right: 15px;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+/* Buttons */
+.btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .btn:hover {
+        background-color: #45a049;
+    }
+
+.btn-secondary {
+    background-color: #003366; /* changed from brown */
+}
+
+    .btn-secondary:hover {
+        background-color: #002244; /* darker shade for hover effect */
+    }
+
+/* Card / Container Styles */
+.card {
+    background-color: #F5F5F5;
+    border: 1px solid #ddd;
+    border-left: 4px solid #4CAF50;
+    padding: 16px;
+    margin: 20px 0;
+    border-radius: 8px;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Forms */
+input[type="text"], input[type="email"], input[type="password"], select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
+
+/* Footer */
+.footer {
+    background-color: #45a049; 
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: 40px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }

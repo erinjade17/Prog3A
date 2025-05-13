@@ -1,30 +1,33 @@
 ﻿@model AgriEnergyConnect.Models.Product
 
 @{
-    ViewData["Title"] = "Add Product";
+    ViewData["Title"] = "Add Product";  // Set the page title
 }
 
 <h2>Add New Product</h2>
 
-<form asp-action="AddProduct" method="post">
+<form asp-action="AddProduct" asp-controller="Farmer" method="post">
     <div class="form-group">
-        <label asp-for="Name" class="control-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+        <label asp-for="Name" class="control-label"></label>  <!-- Label for product name -->
+        <input asp-for="Name" class="form-control" />  <!-- Input for product name -->
+        <span asp-validation-for="Name" class="text-danger"></span>  <!-- Validation message for name -->
     </div>
+
     <div class="form-group">
-        <label asp-for="Category" class="control-label"></label>
-        <input asp-for="Category" class="form-control" />
-        <span asp-validation-for="Category" class="text-danger"></span>
+        <label asp-for="Category" class="control-label"></label>  <!-- Label for category -->
+        <input asp-for="Category" class="form-control" />  <!-- Input for product category -->
+        <span asp-validation-for="Category" class="text-danger"></span>  <!-- Validation message for category -->
     </div>
+
     <div class="form-group">
-        <label asp-for="ProductionDate" class="control-label"></label>
-        <input asp-for="ProductionDate" class="form-control" type="date" />
-        <span asp-validation-for="ProductionDate" class="text-danger"></span>
+        <label asp-for="ProductionDate" class="control-label"></label>  <!-- Label for production date -->
+        <input asp-for="ProductionDate" class="form-control" type="date" />  <!-- Input for production date -->
+        <span asp-validation-for="ProductionDate" class="text-danger"></span>  <!-- Validation message for production date -->
     </div>
-    <button type="submit" class="btn btn-primary">Add Product</button>
+
+    <button type="submit" class="btn btn-primary">Add Product</button>  <!-- Submit button -->
 </form>
 
 @section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
+    @await Html.PartialAsync("_ValidationScriptsPartial")  <!-- Include validation scripts -->
 }
